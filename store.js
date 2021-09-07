@@ -1,29 +1,28 @@
-let tasks = [];
-let nextId = 0;
+let tasks = []
+let nextId = 0
 const mockStore = {
   list() {
-    return tasks;
+    return tasks
   },
 
   create(task) {
-    task.id = nextId;
+    task.id = nextId
     if (!task.completed) {
-      task.completed = false;
+      task.completed = false
     }
-    tasks = tasks.concat(task);
-    nextId++;
-    return task;
+    tasks = tasks.concat(task)
+    nextId++
+    return task
   },
 
   update(task) {
-    tasks = tasks.map((t) => {
-      return +task.id === t.id ? task : t;
-    });
+    tasks = tasks.map(t => {
+      return +task.id === t.id ? task : t
+    })
   },
   delete(id) {
-    tasks = tasks.filter((task) => +id !== task.id);
+    tasks = tasks.filter(task => +id !== task.id)
   },
-};
+}
 
-module.exports = mockStore;
-
+module.exports = mockStore

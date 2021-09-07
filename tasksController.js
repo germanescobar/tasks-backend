@@ -1,8 +1,7 @@
 const store = require('./store')
 
 const list = (req, res) => {
-  store.list()
-    .then(tasks => res.json(tasks))
+  res.json(store.list())
 }
 
 const create = async (req, res, next) => {
@@ -10,7 +9,7 @@ const create = async (req, res, next) => {
     const task = await store.create({ title: req.body.title })
     res.status(201).json(task)
   } catch (err) {
-    if (err.name === "ValidationError") {
+    if (err.name === 'ValidationError') {
       res.status(422).json(err.errors)
     } else {
       next(err)
@@ -26,5 +25,5 @@ const destroy = (req, res) => {
 module.exports = {
   list,
   create,
-  destroy
+  destroy,
 }
