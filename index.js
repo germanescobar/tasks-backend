@@ -11,6 +11,7 @@ app.use(express.json()); // parsea el body a JSON
 // rutas - endpoints - controladores
 app.use(routes);
 
+// manejo global de errores
 app.use((err, req, res, next) => {
   console.log(err);
   res.status(500).json({ error: err.message });

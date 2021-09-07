@@ -20,10 +20,10 @@ const mockStore = {
       return +task.id === t.id ? task : t;
     });
   },
-
   delete(id) {
     tasks = tasks.filter((task) => +id !== task.id);
   },
 };
 
 module.exports = mockStore;
+
