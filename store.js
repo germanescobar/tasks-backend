@@ -1,29 +1,24 @@
-let tasks = [];
-let nextId = 0;
-const mockStore = {
-  list() {
-    return tasks;
+const mongoose = require('mongoose');
+
+const Task = require('./task')
+
+const store = {
+  async list() {
+    return await Task.find()
   },
 
-  create(task) {
-    task.id = nextId;
-    if (!task.completed) {
-      task.completed = false;
-    }
-    tasks = tasks.concat(task);
-    nextId++;
-    return task;
+  async create(task) {
+    return await Task.insertOne(task)
   },
 
-  update(task) {
-    tasks = tasks.map((t) => {
-      return +task.id === t.id ? task : t;
-    });
+  async update(task) {
+    return await Task.updateOne({ _id: task.id }, { $set: { completed: task.completed } })
   },
-  delete(id) {
-    tasks = tasks.filter((task) => +id !== task.id);
+  
+  async delete(id) {
+    return await Task.deleteOne({ _id: task.id })
   },
 };
 
-module.exports = mockStore;
+module.exports = store;
 

@@ -1,20 +1,15 @@
 const User = require('./user');
+const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken');
 
-const logger = (req, res, next) => {
-  // autenticación, trazabilidad
-  console.log('Llegó una nueva petición');
-  next();
-};
 const auth = async (req, res, next) => {
   try {
     const token = req.get('Authorization');
     const data = jwt.verify(token, 'secret key'); // { userId: "12345"}
-    console.log('Data del token:', data);
-    console.log('UserId: ', data.userId);
 
-    const user = await User.findOne({ _id: data.userId });
+    const user = await User.findOne({ _id: mongoose.Types.ObjectId(data.userId) });
     if (user) {
+      res.locals.user = user
       next();
     } else {
       res.status(403).json({ error: 'No Authorized' });
@@ -29,6 +24,5 @@ const auth = async (req, res, next) => {
 };
 
 module.exports = {
-  logger,
   auth,
 };

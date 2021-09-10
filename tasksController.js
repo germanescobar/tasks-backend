@@ -1,11 +1,7 @@
-const User = require('./user');
+const store = require('./store');
 
-const users = async (req, res) => {
-  // var someModel = mongoose.model('user', user.userSchema);
-  // someModel.collection().then((tasks) => res.json(tasks));
-  const users = await User.findById('6137e1cf5b088290882af8ce');
-  console.log(users);
-  res.status(201).json(users);
+const list = async (req, res) => {
+  res.json(await store.list());
 };
 
 const create = async (req, res, next) => {
@@ -27,7 +23,7 @@ const destroy = (req, res) => {
 };
 
 module.exports = {
-  users,
+  list,
   create,
   destroy,
 };

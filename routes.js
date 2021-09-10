@@ -6,7 +6,7 @@ const User = require('./user');
 
 const app = express.Router();
 
-app.get('/tasks', auth, tasksController.users);
+app.get('/tasks', auth, tasksController.list);
 app.post('/tasks', tasksController.create);
 app.delete('/tasks/:id', tasksController.destroy);
 
@@ -18,7 +18,6 @@ app.post('/login', async (req, res) => {
   if (user) {
     // retornamos el JWT
     const token = jwt.sign({ userId: user._id }, 'secret key');
-    console.log(token);
     res.json({ token });
   } else {
     res.status(401).json({ error: 'Credenciales inválidas' });
