@@ -1,20 +1,20 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const store = require('./store');
-const routes = require('./routes');
-const app = express();
-const User = require('./user');
+const express = require('express')
+const mongoose = require('mongoose')
+const cors = require('cors')
+const store = require('./store')
+const routes = require('./routes')
+const app = express()
+const User = require('./user')
 
 mongoose.connect(
-  'mongodb+srv://Task:QIQyeeWbGEjIZGeX@cluster0.y0ki3.mongodb.net/test',
+  'mongodb://localhost:27017',
   { useNewUrlParser: true },
-  console.log('Succes')
-);
+  console.log('Success')
+)
 
 mongoose.connection.on('error', function (e) {
-  console.error(e);
-});
+  console.error(e)
+})
 
 async function run() {
   try {
@@ -24,8 +24,8 @@ async function run() {
       password: 'test1234',
       firstName: 'David',
       lastName: 'Rodriguez',
-    });
-    await user.save(); // guarde en la base de datos
+    })
+    await user.save() // guarde en la base de datos
 
     /*await Post.create({ userId: "613233fb5f971766ecd37366", title: "Tercer post", content: "Contenido del tercer post",
     tags: ["mongodb", "code"]})*/
@@ -46,31 +46,31 @@ async function run() {
     // console.log("User: ", user)
   } catch (err) {
     if (err.name === 'ValidationError') {
-      console.log('Error de validación:', err.errors);
+      console.log('Error de validación:', err.errors)
     } else {
-      console.log(err);
+      console.log(err)
     }
   } finally {
-    mongoose.disconnect();
+    mongoose.disconnect()
   }
 }
 
 //run();
 
 // middlewares - chain of responsability
-app.use(cors());
-app.use(express.json()); // parsea el body a JSON
+app.use(cors())
+app.use(express.json()) // parsea el body a JSON
 
 // rutas - endpoints - controladores
-app.use(routes);
+app.use(routes)
 
 // manejo global de errores
 app.use((err, req, res, next) => {
-  console.log(err);
-  res.status(500).json({ error: err.message });
-});
+  console.log(err)
+  res.status(500).json({ error: err.message })
+})
 
-app.listen(3001, () => console.log('Servidor corriendo ...'));
+app.listen(3001, () => console.log('Servidor corriendo ...'))
 
 // AJAX (Asynchronous JavaScript And XML) - llamados del cliente a servidor
 // Google Maps

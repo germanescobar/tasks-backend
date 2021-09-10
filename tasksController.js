@@ -1,33 +1,35 @@
-const User = require("./user");
+const User = require('./user')
+const store = require('./store')
 
 const users = async (req, res) => {
   // var someModel = mongoose.model('user', user.userSchema);
   // someModel.collection().then((tasks) => res.json(tasks));
-  const users = await User.findById("6137e1cf5b088290882af8ce");
-  console.log(users);
-  res.status(201).json(users);
-};
+  //const users = await User.findById("6137e1cf5b088290882af8ce");
+  const tasks = store.list()
+  console.log(tasks)
+  res.status(201).json(tasks)
+}
 
 const create = async (req, res, next) => {
   try {
-    const task = await store.create({ title: req.body.title });
-    res.status(201).json(task);
+    const task = await store.create({ title: req.body.title })
+    res.status(201).json(task)
   } catch (err) {
-    if (err.name === "ValidationError") {
-      res.status(422).json(err.errors);
+    if (err.name === 'ValidationError') {
+      res.status(422).json(err.errors)
     } else {
-      next(err);
+      next(err)
     }
   }
-};
+}
 
 const destroy = (req, res) => {
-  store.delete(req.params.id);
-  res.status(204).end();
-};
+  store.delete(req.params.id)
+  res.status(204).end()
+}
 
 module.exports = {
   users,
   create,
   destroy,
-};
+}
