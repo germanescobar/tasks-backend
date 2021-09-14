@@ -4,7 +4,6 @@ const cors = require('cors');
 const store = require('./store');
 const routes = require('./routes');
 const app = express();
-const User = require('./user');
 
 mongoose.connect(
   'mongodb://127.0.0.1:27017/topv10',
