@@ -15,5 +15,8 @@ app.delete('/tasks/:id', auth, tasksController.destroy);
 app.post('/login', authController.login);
 app.post('/register', authController.register);
 app.get('/me', auth, authController.me);
+app.post('/upload', (req, res) => {
+  console.log("Files", req.files)
+})
 
 module.exports = app;

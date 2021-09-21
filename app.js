@@ -1,10 +1,17 @@
 require('dotenv').config()
+const bb = require('express-busboy');
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const store = require('./store');
 const routes = require('./routes');
 const app = express();
+
+bb.extend(app, {
+  upload: true,
+  path: 'uploads',
+  allowedPath: /./
+});
 
 mongoose.connect(
   process.env.MONGO_URI,
