@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 
 const auth = async (req, res, next) => {
   try {
-    const token = req.get('Authorization');
+    const [, token] = req?.headers?.authorization?.split('Bearer ');
     const data = jwt.verify(token, process.env.SECRET_KEY || 'secret key'); // { userId: "12345"}
 
     const user = await User.findOne({ _id: mongoose.Types.ObjectId(data.userId) });
@@ -14,8 +14,8 @@ const auth = async (req, res, next) => {
     } else {
       res.status(401).json({ response: "not-authorized", message: 'No Authorized' });
     }
-    next(err);
   } catch (err) {
+    console.log("🚀 ~ file: middlewares.js ~ line 21 ~ auth ~ err", err)
     if (err.name === 'JsonWebTokenError') {
       res.status(401).json({ response: "invalid-token", message: 'Invalid Token' });
     } else if (err.name === 'TokenExpiredError') {

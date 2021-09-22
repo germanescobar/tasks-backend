@@ -18,6 +18,7 @@ const create = async (req, res, next) => {
     const task = await store.create({ title: req.body.title });
     res.status(201).json(task);
   } catch (err) {
+    console.log("🚀 ~ file: tasksController.js ~ line 22 ~ create ~ err", err)
     if (err.name === 'ValidationError') {
       res.status(422).json(err.errors);
     } else {
