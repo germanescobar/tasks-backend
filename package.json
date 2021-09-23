@@ -8,16 +8,18 @@
     "start:dev": "npx nodemon index.js",
     "test": "MONGODB_URI=mongodb://localhost:27017/tasks-test jest"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Make it Real",
+  "license": "MIT",
   "dependencies": {
     "bcrypt": "^5.0.1",
     "cloudinary": "^1.27.0",
+    "composable-middleware": "^0.3.0",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-busboy": "^8.0.0",
     "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.21",
     "mongoose": "^6.0.5",
     "swagger-jsdoc": "^6.1.0",
     "swagger-ui-express": "^4.1.6"
