@@ -4,17 +4,7 @@ const bcrypt = require('bcrypt');
 const UserSchema = mongoose.Schema({
   email: {
     type: String,
-    match: /.+\@.+\..+/,
-    required: [true, 'El email es requerido'],
-    validate: {
-      validator: async function (value) {
-        const user = await User.findOne({
-          email: value
-        });
-        return user === null;
-      },
-      message: 'Email duplicado',
-    },
+    required: true,
   },
   password: {
     type: String,
@@ -29,6 +19,12 @@ const UserSchema = mongoose.Schema({
     type: String
   },
   role: { type: String, default: 'user' },
+  active: {
+    type: Boolean,
+    default: false
+  },
+  passwordResetToken: String,
+  passwordResetExpires: Date
 }, {
   timestamps: true
 });
@@ -66,7 +62,7 @@ UserSchema.path('role').validate(
 
 // Public profile information
 UserSchema.virtual('profile').get(function () {
-  return { name: this.name, role: this.role }
+  return { name: `${this.firstName} ${this.lastName}`, role: this.role }
 })
 
 // Non-sensitive info we'll be putting in the token

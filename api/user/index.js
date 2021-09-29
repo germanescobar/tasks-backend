@@ -15,5 +15,6 @@ router.delete('/:id', auth.hasRole('manager'), controller.destroy)
 router.get('/me', auth.isAuthenticated(), controller.me)
 router.get('/:id', auth.isAuthenticated(), controller.show)
 router.post('/', controller.create)
+router.get('/verified/:token',  controller.verified)
 
 module.exports = router
