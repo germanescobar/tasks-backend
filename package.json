@@ -13,6 +13,7 @@
   "author": "Make it Real",
   "license": "MIT",
   "dependencies": {
+    "@sendgrid/mail": "^7.4.7",
     "bcrypt": "^5.0.1",
     "cloudinary": "^1.27.0",
     "composable-middleware": "^0.3.0",

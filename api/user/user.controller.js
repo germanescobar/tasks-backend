@@ -50,13 +50,13 @@ async function create(req, res) {
     const token = signToken(user._id)
 
     await sendMail({
+      template_id: 'd-649011f35b854690a0e5f47de11eb2f2',
+      dynamic_template_data: {
+        firstName: newUser.firstName,
+        lastName: newUser.lastName,
+        url: `http://localhost:3000/verified/${hash}`
+      },
       to: newUser.email,
-      subject: 'Welcome to the app',
-      html: `
-        <h1>Welcome to the app</h1>
-        <p>Es un gusto tenerte en nuestra app, ${newUser.firstName} ${newUser.lastName}</p>
-        <a href='http://localhost:3000/verified/${hash}'>Confirm your email</a>
-      `
     })
 
     return res.status(201).json({
@@ -73,15 +73,31 @@ async function verified(req, res) {
   const { token } = req.params
 
   try {
-    // const user = await User.findOne({token})
-    // // token sea valido
+    const user = await User.findOne({passwordResetToken:token})
 
-    // const tokencito = signToken(user._id)
+    if (!user){
+      return res.status(404).end()
+    }
 
-    return res.status(200).json({
-      token: 'hola mama'
-    })
+    if (Date.now() <= user.passwordResetExpires ) {
+      user.passwordResetToken = null
+      user.passwordResetExpires = null
+      user.active = true
+      await user.save()
+
+      // Virtual prop
+      const profile = user.profile
+      const token = signToken(user._id)
+
+      return res.status(200).json({
+        profile,
+        token
+      })
+    }
+    // token expired
+    return res.status(401).end()
   } catch (error) {
+    console.log("🚀 ~ file: user.controller.js ~ line 100 ~ verified ~ error", error)
     res.status(500).send(error)
   }
 
