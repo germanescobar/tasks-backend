@@ -24,7 +24,8 @@ const UserSchema = mongoose.Schema({
     default: false
   },
   passwordResetToken: String,
-  passwordResetExpires: Date
+  passwordResetExpires: Date,
+  epaycoCustomerId: String,
 }, {
   timestamps: true
 });
