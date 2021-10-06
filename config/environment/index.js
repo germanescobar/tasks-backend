@@ -1,8 +1,12 @@
+require('dotenv').config()
+
 const all = {
   env: process.env.NODE_ENV,
 
   // Server port
   port: process.env.PORT || 3030,
+
+  epaycoPrivateKey: process.env.EPAYCO_PRIVATE_KEY,
 
   // Should we populate the DB with sample data?
   seedDB: false,
