@@ -11,5 +11,6 @@ router.get('/customer/:id', controller.getCustomer)
 router.post('/charge', auth.isAuthenticated(), controller.charge)
 router.get('/charge/:id', controller.getCharge)
 router.get('/totals', auth.isAuthenticated(), controller.getTotalPayments)
+router.post('/bank', auth.isAuthenticated(), controller.bank)
 
 module.exports = router
