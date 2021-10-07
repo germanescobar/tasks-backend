@@ -109,11 +109,33 @@ async function getTotalPayments(req, res) {
   }
 }
 
+async function bank(req, res) {
+  const paymentInfo = req.body
+  const user = req.user
+
+  try{
+     const {data: bank}= await epayco.bank.create(paymentInfo)
+
+    const newPayment = new Payment({
+      ...bank,
+      userId: user._id,
+      epaycoCustomerId: user.epaycoCustomerId,
+    })
+    const payment = await newPayment.save()
+
+    res.status(201).json({payment})
+  } catch(error) {
+    console.log('error', error)
+    res.status(500).send(error)
+  }
+}
+
 module.exports = {
   createCard,
   createCustomer,
   charge,
   getCustomer,
   getCharge,
-  getTotalPayments
+  getTotalPayments,
+  bank
 }
